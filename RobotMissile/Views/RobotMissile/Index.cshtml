@@ -1,0 +1,50 @@
+﻿@model RobotMissile.Models.GameState
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Robot Missile</title>
+</head>
+<body>
+    <div id="OutputArea">
+        <p>@Model.StatusMessage</p><br />
+    </div>
+    <form id="InputArea">
+        <input id="ButtonQ" type="submit" value="Q" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/Q" />
+        <input id="ButtonW" type="submit" value="W" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/W" />
+        <input id="ButtonE" type="submit" value="E" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/E" />
+        <input id="ButtonR" type="submit" value="R" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/R" />
+        <input id="ButtonT" type="submit" value="T" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/T" />
+        <input id="ButtonY" type="submit" value="Y" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/Y" />
+        <input id="ButtonU" type="submit" value="U" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/U" />
+        <input id="ButtonI" type="submit" value="I" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/I" />
+        <input id="ButtonO" type="submit" value="O" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/O" />
+        <input id="ButtonP" type="submit" value="P" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/P" />
+        <br />
+        <input id="ButtonA" type="submit" value="A" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/A" />
+        <input id="ButtonS" type="submit" value="S" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/S" />
+        <input id="ButtonD" type="submit" value="D" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/D" />
+        <input id="ButtonF" type="submit" value="F" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/F" />
+        <input id="ButtonG" type="submit" value="G" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/G" />
+        <input id="ButtonH" type="submit" value="H" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/H" />
+        <input id="ButtonJ" type="submit" value="J" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/J" />
+        <input id="ButtonK" type="submit" value="K" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/K" />
+        <input id="ButtonL" type="submit" value="L" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/L" />
+        <br />
+        <input id="ButtonZ" type="submit" value="Z" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/Z" />
+        <input id="ButtonX" type="submit" value="X" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/X" />
+        <input id="ButtonC" type="submit" value="C" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/C" />
+        <input id="ButtonV" type="submit" value="V" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/V" />
+        <input id="ButtonB" type="submit" value="B" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/B" />
+        <input id="ButtonN" type="submit" value="N" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/N" />
+        <input id="ButtonM" type="submit" value="M" formaction="/RobotMissile/Game/@Model.GameStateId.ToString()/M" />
+
+    </form>
+</body>
+</html>

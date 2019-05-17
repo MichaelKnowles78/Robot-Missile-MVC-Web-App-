@@ -1,0 +1,22 @@
+﻿@model RobotMissile.Models.GameState
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Robot Missile</title>
+</head>
+<body>
+    <div id="OutputArea">
+        <p>@Model.StatusMessage</p><br />
+    </div>
+    <form id="InputArea">
+        <input id="ButtonNewGame" type="submit" value="New Game" formaction="/RobotMissile/" />
+    </form>
+</body>
+</html>
