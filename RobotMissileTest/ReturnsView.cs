@@ -1,30 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework.Constraints;
-namespace RobotMissileTest
+
+namespace RobotMissileTest;
+
+class ReturnsView : Constraint
 {
-    class ReturnsView : Constraint
+    private readonly string _expected;
+
+    public ReturnsView(string expected)
     {
-        private readonly string _expected;
+        _expected = expected;
+    }
 
-        public ReturnsView(string expected)
+    public override ConstraintResult ApplyTo<TActual>(TActual actual)
+    {
+        if (actual is not ViewResult result)
         {
-            _expected = expected;
+            return new ConstraintResult(this, actual, ConstraintStatus.Error);
         }
 
-        public override ConstraintResult ApplyTo<TActual>(TActual actual)
+        if (result.ViewName == _expected)
         {
-            ViewResult result = actual as ViewResult;
-            if (result is null)
-            {
-                return new ConstraintResult(this, actual, ConstraintStatus.Error);
-            }
-
-            if (result.ViewName == _expected)
-            {
-                return new ConstraintResult(this, actual, ConstraintStatus.Success);
-            }
-
-            return new ConstraintResult(this, actual, ConstraintStatus.Failure);
+            return new ConstraintResult(this, actual, ConstraintStatus.Success);
         }
+
+        return new ConstraintResult(this, actual, ConstraintStatus.Failure);
     }
 }

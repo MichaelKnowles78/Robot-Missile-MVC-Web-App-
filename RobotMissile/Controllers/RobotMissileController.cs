@@ -1,85 +1,81 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 using RobotMissile.Models;
+using System;
 
-namespace RobotMissile.Controllers
+namespace RobotMissile.Controllers;
+
+[Route("RobotMissile")]
+public class RobotMissileController : Controller
 {
-    [Route("RobotMissile")]
-    public class RobotMissileController : Controller
+    private readonly GameStateContext _context;
+
+    public RobotMissileController(GameStateContext context)
     {
-        private readonly GameStateContext _context;
+        _context = context;
+    }
 
-        public RobotMissileController(GameStateContext context)
+    [Route("")]
+    public ActionResult NewGame()
+    {
+        GameState state = new();
+        _context.GameStates.Add(state);
+        _context.SaveChanges();
+        return RedirectToAction("CurrentGame", new { id = state.GameStateId });
+    }
+
+    [Route("Game/{id}")]
+    public ActionResult CurrentGame(Guid id)
+    {
+        GameState state = _context.GameStates.Find(id);
+        if (state != null)
         {
-            _context = context;
+            return View("Index", state);
         }
-
-        [Route("")]
-        public ActionResult NewGame()
+        else
         {
-            GameState state = new GameState();
-            _context.GameStates.Add(state);
+            return RedirectToAction("NewGame");
+        }
+    }
+
+    [Route("Game/{id}/{value}")]
+    public ActionResult Play(Guid id, string value)
+    {
+        var state = _context.GameStates.Find(id);
+        if (state != null)
+        {
+            state.ProcessGuess(Convert.ToChar(value));
             _context.SaveChanges();
-            return RedirectToAction("CurrentGame", new { id = state.GameStateId });
-        }
 
-        [Route("Game/{id}")]
-        public ActionResult CurrentGame(Guid id)
-        {
-            GameState state = _context.GameStates.Find(id);
-            if (state != null)
+            if (state.GameEnded)
+            {
+                return RedirectToAction("EndGame", new { id = state.GameStateId });
+            }
+            else
             {
                 return View("Index", state);
             }
-            else
-            {
-                return RedirectToAction("NewGame");
-            }
         }
-
-        [Route("Game/{id}/{value}")]
-        public ActionResult Play(Guid id, string value)
+        else
         {
-            var state = _context.GameStates.Find(id);
-            if (state != null)
-            {
-                state.ProcessGuess(Convert.ToChar(value));
-                _context.SaveChanges();
-
-                if (state.GameEnded)
-                {
-                    return RedirectToAction("EndGame", new { id = state.GameStateId });
-                }
-                else
-                {
-                    return View("Index", state);
-                }
-            }
-            else
-            {
-                return RedirectToAction("NewGame");
-            }
+            return RedirectToAction("NewGame");
         }
+    }
 
-        [Route("Game/{id}/Final")]
-        public ActionResult EndGame(Guid id)
+    [Route("Game/{id}/Final")]
+    public ActionResult EndGame(Guid id)
+    {
+        GameState state = _context.GameStates.Find(id);
+
+        if (state != null)
         {
-            GameState state = _context.GameStates.Find(id);
+            _context.GameStates.Remove(state);
+            _context.SaveChanges();
 
-            if (state != null)
-            {
-                _context.GameStates.Remove(state);
-                _context.SaveChanges();
-
-                return View("Final", state);
-            }
-            else
-            {
-                return RedirectToAction("NewGame");
-            }
+            return View("Final", state);
+        }
+        else
+        {
+            return RedirectToAction("NewGame");
         }
     }
 }

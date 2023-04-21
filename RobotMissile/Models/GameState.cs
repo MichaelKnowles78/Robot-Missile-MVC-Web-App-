@@ -1,60 +1,59 @@
 ﻿using System;
 
-namespace RobotMissile.Models
+namespace RobotMissile.Models;
+
+public class GameState
 {
-    public class GameState
+
+    public Guid GameStateId { get; set; }
+    public char Code { get; set; }
+    public int Guesses { get; set; }
+    public string StatusMessage { get; set; }
+    public bool GameEnded {get; set; }
+
+    public GameState()
     {
+        GameStateId = Guid.NewGuid();
+        Code = Convert.ToChar(new Random().Next(65, 90));
+        Guesses = 4;
 
-        public Guid GameStateId { get; set; }
-        public char Code { get; set; }
-        public int Guesses { get; set; }
-        public string StatusMessage { get; set; }
-        public bool GameEnded {get; set; }
+        StatusMessage = "Type the correct code\nletter (A-Z) to\ndefuse the missle.\nYou have 4 chances\n";
+    }
 
-        public GameState()
+    public void ProcessGuess(char guess)
+    {
+        if (!GameEnded)
         {
-            GameStateId = Guid.NewGuid();
-            Code = Convert.ToChar(new Random().Next(65, 90));
-            Guesses = 4;
+            bool defused = false;
 
-            StatusMessage = "Type the correct code\nletter (A-Z) to\ndefuse the missle.\nYou have 4 chances\n";
-        }
-
-        public void ProcessGuess(char guess)
-        {
-            if (!GameEnded)
+            if (char.ToUpper(guess) == Code)
             {
-                bool defused = false;
-
-                if (char.ToUpper(guess) == Code)
+                defused = true;
+            }
+            else
+            {
+                if (char.ToUpper(guess) < Code)
                 {
-                    defused = true;
+                    StatusMessage = "Later";
                 }
                 else
                 {
-                    if (char.ToUpper(guess) < Code)
-                    {
-                        StatusMessage = "Later";
-                    }
-                    else
-                    {
-                        StatusMessage = "Earlier";
-                    }
-                    StatusMessage += " than " + char.ToUpper(guess);
+                    StatusMessage = "Earlier";
                 }
+                StatusMessage += " than " + char.ToUpper(guess);
+            }
 
-                if (defused)
+            if (defused)
+            {
+                StatusMessage = "TICK...FZZZZ...CLICK...\nYou did it!";
+                GameEnded = true;
+            }
+            else
+            {
+                if (--Guesses == 0)
                 {
-                    StatusMessage = "TICK...FZZZZ...CLICK...\nYou did it!";
+                    StatusMessage = "BOOOOOOOOMMM...\nYou blew it!\nThe correct code was " + Code;
                     GameEnded = true;
-                }
-                else
-                {
-                    if (--Guesses == 0)
-                    {
-                        StatusMessage = "BOOOOOOOOMMM...\nYou blew it!\nThe correct code was " + Code;
-                        GameEnded = true;
-                    }
                 }
             }
         }
